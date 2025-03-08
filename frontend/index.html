@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>ログイン</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ログイン</h1>
+        <p>ログインしてください</p>
+        <p>ユーザ名</p>
+        <input type="text" id="username" class="textbox" placeholder="ユーザ名を入力" tabindex="0">
+        <p>パスワード</p>
+        <input type="password" id="pass" class="textbox" placeholder="パスワードを入力" tabindex="0">
+        <!--チェックボックス（ONでパスワードを表示）-->
+        <div class="checkbox-container">
+            <input type="checkbox" id="showpassword" onchange="showOrHide()" class="margin">
+            <label for="showpassword">パスワードを表示する</label>
+        </div>
+        <input type="button" value="ログイン" class="button margin" onclick="login()">
+    </div>
+    <!--javascriptファイルを読み込む-->
+    <script src="js/taikin.js" defer></script>
+</body>
+</html>

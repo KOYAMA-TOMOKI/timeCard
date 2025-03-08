@@ -1,0 +1,77 @@
+.textbox {
+    width: 350px; /*枠長さ*/
+    height: 40px; /*枠高さ*/
+    border-radius: 10px; /*枠の形*/
+    border: 5px solid rgb(0, 21, 255); /*外枠*/
+}
+/*ログインボタン*/
+.button {
+    width: 80%; /*幅*/
+    height: 40px;
+    background-color: rgb(0, 255, 68);
+    border: none; /*枠消し*/
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+/*チェックボックス*/
+.checkbox-container {
+    display: flex; /*横並び*/
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+
+/*白枠*/
+.container {
+    /*配置*/
+    width: 400px;
+    height: 500px;
+    margin: auto; /*水平方向の中央揃え*/
+    margin-top: 20px;
+
+    /*スタイル関連*/
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    text-align: center;
+    /*影*/
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/*全体に反映*/
+body {
+    background-color: rgb(228, 252, 167);
+}
+
+/*ボタン配色*/
+.button:hover {
+   background: rgb(188, 189, 255);
+}
+
+/*ユーザ・パス名クリック色*/
+.textbox:hover {
+    border-color: rgb(0, 140, 255); /* ボーダーの色を変える */
+    background-color: rgba(188, 189, 255, 0.2); /* 背景色を薄くする */
+}
+
+.logout-button {
+    width: 100%; /* 🔹 ボタンを横いっぱいに広げる */
+    height: 40px;
+    background-color: rgb(255, 68, 68); /* 🔹 赤色にしてログアウトらしさを出す */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background-color: rgb(200, 50, 50); /* 🔹 マウスオーバー時に少し濃くする */
+}
