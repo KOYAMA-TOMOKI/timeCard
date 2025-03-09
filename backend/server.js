@@ -1,7 +1,7 @@
-//Node.jsにExpressを読み込み（サーバー作成）
-//CORSを使う（ミドルウェアの読み込み）
-const express = require('express');
-const cors = require('cors');
+//モジュールの読み込み
+const express = require('express'); //Node.jsにExpressを読み込み（サーバー作成）
+const cors = require('cors'); //CORSを使う（ミドルウェアの読み込み）
+require('dotenv').config(); //.envを使うために定義
 
 //Expressサーバーの作成
 const app = express();
@@ -10,10 +10,13 @@ const app = express();
 //corsの設定(環境ごとに変わるようにする)
 app.use(cors({
     origin: function (origin, callback){ //orginにフロントURLが入る
-        if(!origin){
+        const allowedOrigins= [
+            process.env.FRONTEND_ORIGIN || 'http://127.0.0.1:5500' //環境変数で指定 or ローカル環境をデフォルトに
+        ];
+        if(!origin || allowedOrigins.includes(origin)){
             callback(null, true); //許可
         } else {
-            callback(null, origin); //許可なしならエラー
+            callback(new Error('Not allowed by CORS')); //許可なしならエラー
         }
     },
     methods: ['GET','POST'], //GETとPOSTのみ許可
@@ -30,8 +33,6 @@ app.listen(PORT, () => {
 
 
 //APIエンドポイント
-/*app.get('/',(req,res) => {
+app.get('/',(req,res) => {
     res.send('サーバが正常に動作している');
 });
-
-*/
