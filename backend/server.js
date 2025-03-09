@@ -19,6 +19,7 @@ app.use(cors({
             callback(new Error('Not allowed by CORS')); //許可なしならエラー
         }
     },
+    //GETはデータ取得、POSTはデータ送信
     methods: ['GET','POST'], //GETとPOSTのみ許可
     credentials: true
 })); //cors有効化
