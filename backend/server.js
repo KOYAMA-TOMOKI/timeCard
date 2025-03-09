@@ -26,13 +26,14 @@ app.use(cors({
 
 app.use(express.json()); //JSONリクエストを有効
 
+//サーバー起動
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-
+//開発なので仮
 //APIエンドポイント
 app.get('/',(req,res) => {
     res.send('サーバが正常に動作している');
