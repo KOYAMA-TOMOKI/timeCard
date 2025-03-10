@@ -38,3 +38,5 @@ app.listen(PORT, () => {
 app.get('/',(req,res) => {
     res.send('サーバが正常に動作している');
 });
+
+//aa
