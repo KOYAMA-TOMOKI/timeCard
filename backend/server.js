@@ -6,23 +6,29 @@ require('dotenv').config(); //.envを使うために定義
 //Expressサーバーの作成
 const app = express();
 
+//originの設定
+const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'http://127.0.0.1:5500').split(',');
+
 //フロントエンドからの通信
 //corsの設定(環境ごとに変わるようにする)
 app.use(cors({
     origin: function (origin, callback){ //orginにフロントURLが入る
-        const allowedOrigins= [
-            process.env.FRONTEND_ORIGIN || 'http://127.0.0.1:5500' //環境変数で指定 or ローカル環境をデフォルトに
-        ];
-        if(!origin || allowedOrigins.includes(origin)){
-            callback(null, true); //許可
+        //フロントのURL確認Origin
+        if(!origin && process.env.NODE_ENV !== 'production'){
+            //開発時のみ、nullのオリジンを許可
+            return callback(null, true); //許可
+        }
+        if (allowedOrigins.includes(origin)){
+            return callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS')); //許可なしならエラー
+            console.error(`CORSエラー:許可されていないオリジン - ${origin}`);
+            return callback(new Error(`Not allowed by CORS: ${origin}`)); //許可なしならエラー
         }
     },
     //GETはデータ取得、POSTはデータ送信
-    methods: ['GET','POST'], //GETとPOSTのみ許可
+    methods: ['GET','POST','PUT','DELETE'], //必要に応じて追加
     credentials: true
-})); //cors有効化
+}));
 
 app.use(express.json()); //JSONリクエストを有効
 
@@ -38,5 +44,3 @@ app.listen(PORT, () => {
 app.get('/',(req,res) => {
     res.send('サーバが正常に動作している');
 });
-
-//aa
