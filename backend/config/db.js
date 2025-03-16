@@ -1,8 +1,9 @@
-//データベースについて
+//データベースについて ライブラリの読み込み
 const { Pool } = require('pg'); //接続プール作成のクラス
 //.envファイルを読み込む
 require('dotenv').config(); //.envファイルを読み込んで環境変数を設定
 
+//PostgreSQLの接続情報設定
 const pool = new Pool({ // インスタンス（実体）
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -11,14 +12,14 @@ const pool = new Pool({ // インスタンス（実体）
     port: process.env.DB_PORT || 5432, // 最初は5432
 });
 
-//テスト
+//テストの実行
 pool.query("SELECT NOW()", (err, res) => {
     if(err){
         console.error('Error:',err); //エラーが発生した場合
     }else{
         console.log('Current time fromDB:', res.rows[0].now); //エラーが無ければ
     }    
-    pool.end();
+    pool.end(); //プールを閉じる
   });
 
-module.exports = pool; //エクスポート
+module.exports = pool; //エクスポート（他のファイルでも使えるようにする）
