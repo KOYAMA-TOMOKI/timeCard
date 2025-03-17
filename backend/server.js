@@ -3,7 +3,7 @@ const express = require('express'); //Node.jsにExpressを読み込み（サー�
 const cors = require('cors'); //CORSを使う（ミドルウェアの読み込み）
 require('dotenv').config(); //.envを使うために定義
 const { Pool } = require('pg'); //PostgreSQLのクラスを読み込む
-const pool = require('./db');//DB接続モジュールのインポート
+const pool = require('./config/db');//DB接続モジュールのインポート
 
 //Expressサーバーの作成
 const app = express();
