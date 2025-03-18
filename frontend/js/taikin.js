@@ -1,6 +1,6 @@
 //パスワードの表示・非表示
 function showOrHide(){
-    let passField = document.getElementById("pass"); 
+    let passField = document.getElementById("pass"); //パスワード入力フィールド(id="pass")
     let checkbox = document.getElementById("showpassword");
     if (checkbox.checked){ //チェックボックスの判定
         passField.type = "text"; //表示
