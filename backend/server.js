@@ -8,6 +8,15 @@ const pool = require('./config/db');//DB接続モジュールのインポート
 //Expressサーバーの作成
 const app = express();
 
+//CORS設定を追加
+app.use(cors({
+    origin: 'http://127.0.0.1:8080', // フロントエンドのURLを許可
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+
+app.use(express.json());
+
 //originの設定
 const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'http://127.0.0.1:5500').split(',');
 
