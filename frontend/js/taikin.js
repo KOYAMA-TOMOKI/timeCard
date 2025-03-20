@@ -32,18 +32,35 @@ function userLogin(){
         return;
     }
 
-    //ユーザ名
-    let correctUsername = "admin";
-    //パスワード
-    let correctPassword = "1234"
+    //仮のログイン情報
+    let adminAccount = { username: "admin", password: "admin123" };
+    let userAccount = { username: "teacher1", password: "teacher123" };
 
-    if(username === correctUsername && password === correctPassword){
-        alert("ログイン成功!");
+    //管理者画面へ
+    if(username === adminAccount.username && password === adminAccount.password){
+        alert("管理者としてログイン成功!");
+        localStorage.setItem("role","admin");
+        window.location.href = "admin.html"; //admin.htmlへ移動
+    //ユーザ側へ
+    } else if (username === userAccount.username && password === userAccount.password){
+        alert("ユーザとしてログイン成功!");
+        localStorage.setIteam("role","user");
         window.location.href = "home.html"; //home.htmlへ移動
     } else {
         alert("ユーザ名またはパスワードが間違っています");
     }
 }
+
+//不正ログイン防止
+document.addEventListener("DOMContentLoaded", function() {
+    let role = localStorage.getItem("role");
+    if(role !== "admin"){
+        alert("管理者権限がありません。ログインしてください");
+        window.location.href = "index.html"; //ログイン画面に戻す
+    }
+});
+
+
 
 //日付・曜日を更新
 function updateTime(){
