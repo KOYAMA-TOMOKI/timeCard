@@ -29,6 +29,22 @@
         <input type="button" value="教員登録" class="button margin" onclick="reginsterTeacher()">
     </div>
 
+    <!--教員一覧-->
+    <div class="acultyList">
+        <h2><p>登録済みの教員一覧</p></h2>
+        <table bordar="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名前</th>
+                    <th>役職</th>
+                </tr>
+            </thead>
+            <!--JavaScriputでここにデータを挿入-->
+            <tbody id="teacherList">
+        </table>
+    </div>
+
     <!-- ログアウトボタン -->
     <button onclick="logout()">ログアウト</button>
 

@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 //教員登録
+//入力フォームの値を取得
 function registerTeacher(){
     //教員id
     let teacherId = document.getElementById("admin_id").value.trim();
@@ -28,18 +29,19 @@ function registerTeacher(){
         post: teacherPost
     };
 
+    //fatch APIを使ってサーバーにデータを送信
     fetch("/api/teachers", {
         method: "POST",
-        headers: {
+        headers: { //json形式でデータを送信
             "Conetent-Type": "applocation/json"
         },
         body: JSON.stringify(newTeacher)
     })
-    .then(response => response.json())
+    .then(response => response.json()) //サーバーからレスポンスを受け取る
     .then(data => {
-        alert(data.message);
+        alert(data.message); //登録メッセージ
         loadTeachers(); //教員一覧を更新
-        clearForm(); 
+        clearForm();  //入力フォームをリセット
     })
     .catch(error => console.error("エラー:",error));
 }
