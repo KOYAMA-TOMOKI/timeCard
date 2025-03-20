@@ -4,21 +4,17 @@ const cors = require('cors'); //CORSを使う（ミドルウェアの読み込�
 require('dotenv').config(); //.envを使うために定義
 const { Pool } = require('pg'); //PostgreSQLのクラスを読み込む
 const pool = require('./config/db');//DB接続モジュールのインポート
+const bcrypt = require('bcrypt'); // bcryptのインポート（パスワードのハッシュ化・照合）
 
 //Expressサーバーの作成
 const app = express();
 
-//CORS設定を追加
-app.use(cors({
-    origin: 'http://127.0.0.1:8080', // フロントエンドのURLを許可
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}));
-
-app.use(express.json());
-
-//originの設定
-const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'http://127.0.0.1:5500').split(',');
+// CORS設定
+const allowedOrigins = [
+    'http://127.0.0.1:5500',  // Live Server の場合
+    'http://127.0.0.1:8080',  // 他のポートでフロントを起動している場合
+    'http://localhost:8080'   // localhost の場合
+];
 
 //フロントエンドからの通信
 //corsの設定(環境ごとに変わるようにする)
@@ -46,7 +42,7 @@ app.use(express.json()); //JSONリクエストを有効
 //APIエンドポイント:フロントからの登録API
 //res (サーバーから返すデータ)
 //req (フロントエンドから送られるデータ)
-app.post('/attendance',async(req, res) =>{ ///attendanceというURLに送られたとき実行する
+app.post('/api/login',async(req, res) =>{ //POSTメソッドで/loginにアクセス
     const { id, password } = req.body; //req.bodyでフロントから送られたデータを取得
     try{ 
         //PostgreSQLのusersテーブルからidとpasswordが一致するデータを取得
@@ -101,6 +97,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`🔗 フロントエンドは: ${allowedOrigins.join(", ")} から接続可能`);
 });
 
 //開発なので仮
