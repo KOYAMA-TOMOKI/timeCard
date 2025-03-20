@@ -30,23 +30,26 @@
     </div>
 
     <!--教員一覧-->
-    <div class="acultyList">
-        <h2><p>登録済みの教員一覧</p></h2>
-        <table bordar="1">
+    <div class="facultyList"> <!-- 教員一覧 -->
+        <h2>登録済みの教員一覧</h2>
+        <table>
             <thead>
                 <tr>
+                    <!--見出しのヘッダー-->
                     <th>ID</th>
                     <th>名前</th>
                     <th>役職</th>
+                    <th>操作</th>
                 </tr>
             </thead>
-            <!--JavaScriputでここにデータを挿入-->
-            <tbody id="teacherList">
+            <tbody id="teacher_table">
+                <!-- JavaScript でデータを挿入 -->
+            </tbody>
         </table>
     </div>
-
+</div>
     <!-- ログアウトボタン -->
-    <button onclick="logout()">ログアウト</button>
+    <button class="logout-button" onclick="logout()">ログアウト</button>
 
     <!--javascriptファイルを読み込む-->
     <script src="js/admin.js" defer></script>

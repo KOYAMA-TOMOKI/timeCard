@@ -45,3 +45,9 @@ function registerTeacher(){
     })
     .catch(error => console.error("エラー:",error));
 }
+
+//ログアウト
+function logout(){
+    localStorage.removeItem("role");   //ローカルストレージのroleを削除
+    window.location.href = "index.html" //ログイン画面に戻る
+}

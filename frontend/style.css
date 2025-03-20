@@ -75,3 +75,41 @@ body {
 .logout-button:hover {
     background-color: rgb(200, 50, 50); /* 🔹 マウスオーバー時に少し濃くする */
 }
+
+/*admin.html*/
+/* 教員登録フォームのスタイル */
+.manager {
+    width: 50%; /* 画面の半分の幅 */
+    border: 2px solid #333;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 30px;
+}
+
+/* 教員一覧のスタイル */
+.facultyList {
+    width: 50%; /* 画面の半分の幅 */
+    border: 2px solid #333;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+/* テーブルのスタイル */
+.facultyList table {
+    width: 100%; /* テーブルを横いっぱいに広げる */
+    border-collapse: collapse; /* 枠線を統一 */
+}
+
+/*表の中身*/
+/*th ヘッダー　td　中身の*/
+.facultyList th, .facultyList td {
+    border: 1px solid #ddd; /* テーブルの枠線 */
+    padding: 8px;
+    text-align: center;
+}
+
+.facultyList th {
+    background-color: #f2f2f2; /* 見出しの背景色 */
+}
