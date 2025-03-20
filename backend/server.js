@@ -38,21 +38,31 @@ app.use(express.json()); //JSONリクエストを有効
 //res (サーバーから返すデータ)
 //req (フロントエンドから送られるデータ)
 app.post('/attendance',async(req, res) =>{ ///attendanceというURLに送られたとき実行する
-    const {employess_id,clock_in,clock_out} = req.body; //req.bodyでフロントから送られたデータを取得
-    try{ //エラーが発生した場合にキャッチする
-        const result = await pool.query( //データベースにSQLを実行　命令を送る
-        //SQL文
-        "INSERT INTO attendance (employee_id, clock_in, clock_out) VALUES ($1, $2, $3) RETURNING *",
-        //$1,$2,$3に対応する値の配列
-        [employess_id,clock_in,clock_out]
-        );
-        res.json(result.rows[0]); //結果をフロントエンドに返す
-    }catch(error){ //エラーが発生した場合
-        //エラーメッセージを表示
-        console.error('Error inserting attendance:', error);
-        res.status(500).json({ error: 'Internal Server Error'});
+    const { id, password } = req.body; //req.bodyでフロントから送られたデータを取得
+    try{ 
+        //PostgreSQLのusersテーブルからidとpasswordが一致するデータを取得
+        const result = await pool.query("SELECT id, password, role FROM users WHERE id = $1", [id]);
+        
+        if(result.rows.length === 0){
+            return res.status(401).json({ error: 'IDまたはパスワードが違います'});
+        }
+
+        const user = result.rows[0];
+
+        //入力されたパスワードとDBに保存されたパスワードを比較
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'IDまたはパスワードが違います' });
+        }
+
+        //ログイン成功
+        res.json({ role: user.role });
+    } catch (error) {
+        console.error('ログインエラー:', error);
+        res.status(500).json({ error: "サーバーエラー"});
     }
 });
+
 
 //CSVダウンロード用のAPIエンドポイント
 app.get('/download-csv', async(req, res) => {
