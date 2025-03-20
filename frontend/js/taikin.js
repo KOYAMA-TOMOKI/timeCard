@@ -12,12 +12,16 @@ function showOrHide(){
 
 //enter動作
 document.addEventListener("DOMContentLoaded", function() {
-    document.addEventListener("keydown", function(event) {
+    let userPassInput = document.getElementById("user_pass");  //パスワード入力欄を取得
+    userPassInput.addEventListener("keydown", function(event) { //パスワード入力欄だけ監視
         if (event.key === "Enter") {
-            userLogin(); // Enterキーが押されたら login() を実行
+            event.preventDefault(); // デフォルトのEnter動作を防ぐ
+            userLogin(); // ログイン処理を実行
         }
     });
 });
+
+
 
 
 
