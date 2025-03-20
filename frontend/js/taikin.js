@@ -27,36 +27,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //ログイン判定
 function userLogin(){
-    let username = document.getElementById("user_username").value.trim();
+    let userId = document.getElementById("user_id").value.trim();
     let password = document.getElementById("user_pass").value.trim();
-
-    if(username === "" || password === ""){
-        alert("ユーザ名とパスワードを入力してください");
+    //console.log("入力されたID:", userId);
+    //console.log("入力されたパスワード:", password);
+    if(userId === "" || password === ""){
+        alert("ユーザIDとパスワードを入力してください");
         return;
     }
-
-    let adminAccount = { username: "admin", password: "admin123" };
-    let userAccount = { username: "teacher1", password: "teacher123" };
-
-    if(username === adminAccount.username && password === adminAccount.password){
-        console.log("管理者としてログイン成功: admin.html に遷移");
+    let adminAccount = { id: "admin", password: "admin123" };
+    let userAccount = { id: "teacher1", password: "teacher123" };
+    //console.log("正しいユーザID:", userAccount.id);
+    //console.log("正しいパスワード:", userAccount.password);
+    if(userId === adminAccount.id && password === adminAccount.password){
+        //console.log("管理者としてログイン成功");
         alert("管理者としてログイン成功!");
         localStorage.setItem("role","admin");
-        setTimeout(() => {
-            window.location.href = "/frontend/admin.html";
-        }, 500); // 0.5秒後にadmin.htmlに移動
-    } else if (username === userAccount.username && password === userAccount.password){
-        console.log("ユーザとしてログイン成功: home.html に遷移");
+        window.location.href = "/frontend/admin.html";
+    } else if (userId === userAccount.id && password === userAccount.password){
+        //console.log("ユーザとしてログイン成功");
         alert("ユーザとしてログイン成功!");
         localStorage.setItem("role","user");
-        setTimeout(() => {
-            window.location.href = "/frontend/home.html";
-        }, 500); // 0.5秒後にhome.htmlに移動
+        window.location.href = "/frontend/home.html";
     } else {
-        console.log("ログイン失敗: ユーザ名またはパスワードが間違っています");
-        alert("ユーザ名またはパスワードが間違っています");
+        //console.log("ログイン失敗: IDまたはパスワードが違います");
+        alert("ユーザIDまたはパスワードが間違っています");
     }
 }
+
 
 //不正ログイン防止
 document.addEventListener("DOMContentLoaded", function() {

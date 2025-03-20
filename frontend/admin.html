@@ -12,16 +12,25 @@
         <h1>管理者画面</h1>
 
         <!--管理者ログインフォーム-->
-        <h2><p>ID登録</p></h2>
-        <p>ID名登録</p>
-        <input type="text" id="admin_username" class="textbox" placeholder="ユーザー名を入力" tabindex="0">
-        <p>パスワード登録</p>
-        <input type="password" id="admin_pass" class="textbox" placeholder="パスワードを入力" tabindex="0">
-        <p>役職登録</p>
+        <h2><p>教員ID登録</p></h2>
+        <h4><p>教員ID名登録</p></h4>
+        <input type="text" id="admin_id" class="textbox" placeholder="教員idを入力" tabindex="0">
+       
+        <h4><p>教員名登録</p></h4>
+        <input type="text" id="admin_name" class="textbox" placeholder="教員名を入力" tabindex="0">
+
+        <h4><p>パスワード登録</p></h4>
+        <input type="password" id="admin_pass" class="textbox" placeholder="設定するパスワードを入力" tabindex="0">
+     
+        <h4><p>役職登録</p></h4>
         <input type="text" id="admin_post" class="textbox" placeholder="役職を入力" tabindex="0">
 
-        <input type="button" value="ログイン" class="button margin" onclick="adminLogin()">
+        <!--教員登録ボタン-->
+        <input type="button" value="教員登録" class="button margin" onclick="reginsterTeacher()">
     </div>
+
+    <!-- ログアウトボタン -->
+    <button onclick="logout()">ログアウト</button>
 
     <!--javascriptファイルを読み込む-->
     <script src="js/admin.js" defer></script>
