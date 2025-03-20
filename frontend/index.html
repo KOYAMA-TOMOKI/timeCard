@@ -11,15 +11,16 @@
         <h1>ログイン</h1>
         <p>ログインしてください</p>
         <p>ユーザ名</p>
-        <input type="text" id="username" class="textbox" placeholder="ユーザ名を入力" tabindex="0">
+        <input type="text" id="user_username" class="textbox" placeholder="ユーザ名を入力" tabindex="0">
+        <!--taikin.jsへ-->
         <p>パスワード</p>
-        <input type="password" id="pass" class="textbox" placeholder="パスワードを入力" tabindex="0">
+        <input type="password" id="user_pass" class="textbox" placeholder="パスワードを入力" tabindex="0">
         <!--チェックボックス（ONでパスワードを表示）-->
         <div class="checkbox-container">
             <input type="checkbox" id="showpassword" onchange="showOrHide()" class="margin">
             <label for="showpassword">パスワードを表示する</label>
         </div>
-        <input type="button" value="ログイン" class="button margin" onclick="login()">
+        <input type="button" value="ログイン" class="button margin" onclick="userLogin()">
     </div>
     <!--javascriptファイルを読み込む-->
     <script src="js/taikin.js" defer></script>

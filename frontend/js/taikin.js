@@ -1,6 +1,7 @@
 //パスワードの表示・非表示
 function showOrHide(){
-    let passField = document.getElementById("pass"); //パスワード入力フィールド(id="pass")
+    //index.htmlから取得
+    let passField = document.getElementById("user_pass"); //パスワード入力フィールド(id="pass")
     let checkbox = document.getElementById("showpassword");
     if (checkbox.checked){ //チェックボックスの判定
         passField.type = "text"; //表示
@@ -13,7 +14,7 @@ function showOrHide(){
 document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
-            login(); // Enterキーが押されたら login() を実行
+            userLogin(); // Enterキーが押されたら login() を実行
         }
     });
 });
@@ -21,9 +22,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 //ログイン判定
-function login(){
-    let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("pass").value.trim();
+function userLogin(){
+    let username = document.getElementById("user_username").value.trim();
+    let password = document.getElementById("user_pass").value.trim();
 
     //空白のみの入力防止
     if(username === "" || password === ""){
