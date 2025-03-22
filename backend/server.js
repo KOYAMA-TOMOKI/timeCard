@@ -39,7 +39,9 @@ app.use(cors({
 
 app.use(express.json()); //JSONリクエストを有効
 
-//APIエンドポイント:フロントからの登録API
+
+
+//ログインAPI
 //res (サーバーから返すデータ)
 //req (フロントエンドから送られるデータ)
 app.post('/api/login',async(req, res) =>{ //POSTメソッドで/loginにアクセス
@@ -69,6 +71,7 @@ app.post('/api/login',async(req, res) =>{ //POSTメソッドで/loginにアク�
 });
 
 
+
 //CSVダウンロード用のAPIエンドポイント
 app.get('/download-csv', async(req, res) => {
     const{ month } = req.query;
@@ -92,6 +95,10 @@ app.get('/download-csv', async(req, res) => {
         res.status(500).json({ error: 'Internal Server Error' }); 
     }
 });
+
+
+
+
 //サーバー起動
 const PORT = process.env.PORT || 3000;
 
