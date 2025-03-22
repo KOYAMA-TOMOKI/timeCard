@@ -97,7 +97,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    console.log(`🔗 フロントエンドは: ${allowedOrigins.join(", ")} から接続可能`);
+    console.log(`フロントエンドは:${allowedOrigins.join(",")} から接続可能`);
 });
 
 //開発なので仮
