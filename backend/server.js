@@ -43,35 +43,61 @@ app.use(express.json()); //JSONリクエストを有効
 
 
 //ログインAPI
+// ログインAPI
+app.post('/api/login', async (req, res) => {
+    const { id, password } = req.body;
+  
+    try {
+      const result = await pool.query(
+        "SELECT user_id, name, password, role FROM users WHERE user_id = $1",
+        [id]
+      );
+  
+      if (result.rows.length === 0) {
+        return res.status(401).json({ error: 'IDまたはパスワードが違います' });
+      }
+  
+      const user = result.rows[0];
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: 'IDまたはパスワードが違います' });
+      }
+  
+      res.json({ role: user.role });
+    } catch (error) {
+      console.error('ログインエラー:', error);
+      res.status(500).json({ error: "サーバーエラー" });
+    }
+  });
+  
+
 //res (サーバーから返すデータ)
 //req (フロントエンドから送られるデータ)
-app.post('/api/login',async(req, res) =>{ //POSTメソッドで/loginにアクセス
-    const { id, password } = req.body; //req.bodyでフロントから送られたデータを取得
-    try{ 
-        //PostgreSQLのusersテーブルからuser_idとpasswordが一致するデータを取得
-        const result = await pool.query("SELECT user_id, name, password, role FROM users WHERE user_id = $1", [id]);
-        
-        if(result.rows.length === 0){
-            return res.status(401).json({ error: 'IDまたはパスワードが違います'});
-        }
-
-        const user = result.rows[0];
-
-        //入力されたパスワードとDBに保存されたパスワードを比較
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-            return res.status(401).json({ error: 'IDまたはパスワードが違います' });
-        }
-
-        //ログイン成功
-        res.json({ role: user.role });
-    } catch (error) {
-        console.error('ログインエラー:', error);
-        res.status(500).json({ error: "サーバーエラー"});
+// 教員登録API
+app.post('/api/teachers', async (req, res) => {
+    const { id, name, password, post } = req.body;
+  
+    if (!id || !name || !password || !post) {
+      return res.status(400).json({ message: '全ての項目を入力してください' });
     }
-});
-
-
+  
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10); // ← これを追加！
+  
+      await pool.query(
+        `INSERT INTO users (user_id, name, password, role, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, NOW(), NOW())`,
+        [id, name, hashedPassword, post]
+      );
+  
+      res.json({ message: '教員を登録しました' });
+    } catch (err) {
+      console.error('教員登録エラー:', err);
+      res.status(500).json({ message: 'サーバーエラー' });
+    }
+  });
+  
 
 //CSVダウンロード用のAPIエンドポイント
 app.get('/download-csv', async(req, res) => {
