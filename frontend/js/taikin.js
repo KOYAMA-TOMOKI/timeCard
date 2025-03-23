@@ -36,7 +36,7 @@ async function userLogin() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            },
+              },              
             body: JSON.stringify({ id: userId, password: password })
         });
         //APIのレスポンスを取得
