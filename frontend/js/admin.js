@@ -29,16 +29,18 @@ function registerTeacher(){
         post: teacherPost
     };
 
+    const baseURL = import.meta.env.VITE_API_URL; //.envから読み込む
+
     //fatch APIを使ってサーバーにデータを送信
-    fetch("/api/teachers", {
+    fetch(`${baseURL}/api/teachers`, {
         method: "POST",
-        headers: { //json形式でデータを送信
-            "Conetent-Type": "applocation/json"
+        headers: {
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(newTeacher)
     })
     .then(response => response.json()) //サーバーからレスポンスを受け取る
-    .then(data => {
+    .then(data => { //jsonデータになれば
         alert(data.message); //登録メッセージ
         loadTeachers(); //教員一覧を更新
         clearForm();  //入力フォームをリセット
