@@ -46,9 +46,9 @@ async function userLogin() {
             alert(`${data.role} としてログイン成功`);
             localStorage.setItem("role", data.role);
             if (data.role === "admin") {//管理者ログイン
-                window.location.href = "/frontend/admin.html";
+                window.location.href = "admin.html";
             } else {//ユーザログイン
-                window.location.href = "/frontend/home.html";
+                window.location.href = "home.html";
             }
         //ログイン失敗
         } else {
