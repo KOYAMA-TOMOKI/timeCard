@@ -13,7 +13,8 @@ const app = express();
 const allowedOrigins = [
     'http://127.0.0.1:5500',  // Live Server の場合
     'http://127.0.0.1:8080',  // 他のポートでフロントを起動している場合
-    'http://localhost:8080'   // localhost の場合
+    'http://localhost:8080',
+    'http://localhost:5173'   // localhost の場合
 ];
 
 //フロントエンドからの通信
@@ -47,8 +48,8 @@ app.use(express.json()); //JSONリクエストを有効
 app.post('/api/login',async(req, res) =>{ //POSTメソッドで/loginにアクセス
     const { id, password } = req.body; //req.bodyでフロントから送られたデータを取得
     try{ 
-        //PostgreSQLのusersテーブルからidとpasswordが一致するデータを取得
-        const result = await pool.query("SELECT id, password, role FROM users WHERE id = $1", [id]);
+        //PostgreSQLのusersテーブルからuser_idとpasswordが一致するデータを取得
+        const result = await pool.query("SELECT user_id, name, password, role FROM users WHERE user_id = $1", [id]);
         
         if(result.rows.length === 0){
             return res.status(401).json({ error: 'IDまたはパスワードが違います'});
