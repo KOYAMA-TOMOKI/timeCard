@@ -1,7 +1,4 @@
 //管理者画面
-document.addEventListener("DOMContentLoaded", function() {
-    loadTeachers(); //教員一覧を表示
-});
 
 //パスワードの表示・非表示
 function showOrHide(){
@@ -59,6 +56,13 @@ function registerTeacher(){
     })
     .catch(error => console.error("エラー:",error));
 }
+
+//教員一覧を取得
+document.addEventListener("DOMContentLoaded", function() {
+    loadTeachers(); //教員一覧を表示
+});
+
+
 
 //ログアウト
 function logout(){
