@@ -1,16 +1,17 @@
 //管理者画面
 
 //パスワードの表示・非表示
-function showOrHide(){
-    //admin.htmlから取得
-    let passField = document.getElementById("admin_pass"); //パスワード入力フィールド(id="admin_pass")
+// グローバルに登録する
+window.showOrHide = function() {
+    let passField = document.getElementById("admin_pass");
     let checkbox = document.getElementById("showpassword");
-    if (checkbox.checked){ //チェックボックスの判定
-        passField.type = "text"; //表示
-    }else{
-        passField.type = "password"; //非表示
+    if (checkbox.checked) {
+        passField.type = "text";
+    } else {
+        passField.type = "password";
     }
 }
+
 
 //教員登録
 //入力フォームの値を取得
