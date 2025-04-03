@@ -11,8 +11,11 @@
         <h2 id="current-time">現在時刻:--:--:--</h2> <!--時間はjsで設定-->
         <h3 id="current-date">日付・曜日:--</h3> <!--日付・曜日はjsで設定-->
 
-        <button onclick="recordAttendance('出勤')">出勤</button>
-        <button onclick="recordAttendance('退勤')">退勤</button>
+        <!-- ここにuser_idのhidden入力を追加 -->
+        <input type="hidden" id="user_id" value="">
+
+        <button id="clock_in_button">出勤</button>
+        <button id="clock_out_button">退勤</button>
 
         <button class="logout-button" onclick="logout()">ログアウト</button>
         <div id="attendance-log"></div>

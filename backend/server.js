@@ -37,7 +37,30 @@ app.use(cors({
 
 app.use(express.json()); //JSONリクエストを有効
 
+// 出退勤記録API
+app.post('/api/attendance', async (req, res) => {
+  const { userId, type } = req.body;  // type: 'clock_in' or 'clock_out'
 
+  if (!userId || !type) {
+      return res.status(400).json({ message: 'ユーザーIDと出退勤タイプは必須です' });
+  }
+
+  try {
+      const time = new Date();  // 現在時刻を取得
+
+      // 出勤または退勤の記録
+      await pool.query(
+          `INSERT INTO timecard (user_id, clock_in_time, clock_out_time, type, created_at, updated_at)
+          VALUES ($1, $2, $3, $4, NOW(), NOW())`,
+          [userId, type === 'clock_in' ? time : null, type === 'clock_out' ? time : null, type]
+      );
+
+      res.json({ message: `出勤/退勤を記録しました (${type})` });
+  } catch (err) {
+      console.error('出退勤記録エラー:', err);
+      res.status(500).json({ message: 'サーバーエラーで記録できませんでした' });
+  }
+});
 
 //ログインAPI
 // ログインAPI
@@ -141,26 +164,26 @@ app.delete('/api/teachers/:id', async (req, res) => {
 
 //CSVダウンロード用のAPIエンドポイント
 app.get('/download-csv', async(req, res) => {
-    const{ month } = req.query;
-    if(!month){
-        return res.status(400).json({ error: 'month パラメータは必須'});
-    }
-    try{
-        const query = `
-            SELECT * FROM attendance
-            WHERE TO_CHAR(clock_in, 'YYYY-MM') = $1`;
-        const result = await pool.query(query, [month]);
-        const data = result.rows;
-        const { Parser } = require('json2csv');
-        const json2csvParser = new Parser();
-        const csv = json2csvParser.parse(data);
-        res.header('Content-Type', 'text/csv');
-        res.header('Content-Disposition', `attachment; filename="attendance_${month}.csv"`);
-        res.send(csv);
-    } catch (error) {
-        console.error('Error generating CSV:', error);
-        res.status(500).json({ error: 'Internal Server Error' }); 
-    }
+  const{ month } = req.query;
+  if(!month){
+      return res.status(400).json({ error: 'month パラメータは必須'}); 
+  }
+  try{
+      const query = `
+          SELECT * FROM timecard
+          WHERE TO_CHAR(clock_in_time, 'YYYY-MM') = $1`;
+      const result = await pool.query(query, [month]);
+      const data = result.rows;
+      const { Parser } = require('json2csv');
+      const json2csvParser = new Parser();
+      const csv = json2csvParser.parse(data);
+      res.header('Content-Type', 'text/csv');
+      res.header('Content-Disposition', `attachment; filename="attendance_${month}.csv"`);
+      res.send(csv);
+  } catch (error) {
+      console.error('Error generating CSV:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 
