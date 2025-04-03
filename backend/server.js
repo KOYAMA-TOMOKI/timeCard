@@ -11,9 +11,6 @@ const app = express();
 
 // CORS設定
 const allowedOrigins = [
-    'http://127.0.0.1:5500',  // Live Server の場合
-    'http://127.0.0.1:8080',  // 他のポートでフロントを起動している場合
-    'http://localhost:8080',
     'http://localhost:5173'   // localhost の場合
 ];
 
@@ -110,6 +107,37 @@ app.get('/api/teachers', async (req, res) => {
       res.status(500).json({ message: 'サーバーエラー' });
   }
 });
+//削除用API
+// 削除用API
+app.delete('/api/teachers/:id', async (req, res) => {
+  const { id } = req.params;
+  console.log("削除リクエストを受け取ったID:", id);  // 追加確認用
+
+  // 管理者ユーザーを保護
+  if (id === 'koutoukanri') {
+      return res.status(403).json({ message: '管理者ユーザーは削除できません！' });
+  }
+
+  try {
+      //IDが存在するか確認
+      const result = await pool.query(
+          "SELECT * FROM users WHERE user_id = $1", [id]
+      );
+      if (result.rows.length === 0) {
+          return res.status(404).json({ message: 'ユーザーが見つかりません' });
+      }
+
+      await pool.query(
+          "DELETE FROM users WHERE user_id = $1",
+          [id]
+      );
+      res.json({ message: '教員を削除しました' });
+  } catch (err) {
+      console.error('削除エラー:', err);
+      res.status(500).json({ message: 'サーバーエラーで削除できませんでした' });
+  }
+});
+
 
 //CSVダウンロード用のAPIエンドポイント
 app.get('/download-csv', async(req, res) => {

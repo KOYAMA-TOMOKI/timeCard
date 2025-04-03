@@ -82,6 +82,29 @@ window.loadTeachers = function () {
         .catch(err => console.error("一覧取得エラー:", err));
 };
 
+// 教員削除
+// 教員削除
+window.deleteTeacher = function (teacherId) {
+    console.log("削除する教員のID:", teacherId);
+    const baseURL = import.meta.env.VITE_API_URL;
+    console.log("削除リクエストのURL:", `${baseURL}/api/teachers/${teacherId}`);  // 追加確認用
+
+    if (!confirm("本当に削除しますか？")) return;
+
+    fetch(`${baseURL}/api/teachers/${teacherId}`, {
+        method: 'DELETE',
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message); // 削除メッセージ
+        loadTeachers(); // 削除後にリストを更新
+    })
+    .catch(err => {
+        alert('削除できませんでした。');
+        console.error('削除エラー:', err);
+    });
+};
+
 //教員一覧を取得
 document.addEventListener("DOMContentLoaded", function() {
     loadTeachers(); //教員一覧を表示
