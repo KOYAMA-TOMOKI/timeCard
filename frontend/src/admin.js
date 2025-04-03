@@ -15,7 +15,7 @@ window.showOrHide = function() {
 
 //教員登録
 //入力フォームの値を取得
-function registerTeacher(){
+window.registerTeacher = function() {
     //教員id
     let teacherId = document.getElementById("admin_id").value.trim();
     //教員名
@@ -58,15 +58,49 @@ function registerTeacher(){
     .catch(error => console.error("エラー:",error));
 }
 
+// 教員一覧を取得して表示
+window.loadTeachers = function () {
+    const baseURL = import.meta.env.VITE_API_URL;
+
+    fetch(`${baseURL}/api/teachers`)
+        .then(res => res.json())
+        .then(data => {
+            const table = document.getElementById("teacher_table");
+            table.innerHTML = ""; // 表を一旦クリア
+
+            data.forEach((teacher) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${teacher.id}</td>
+                    <td>${teacher.name}</td>
+                    <td>${teacher.post}</td>
+                    <td><button onclick="deleteTeacher('${teacher.id}')">削除</button></td>
+                `;
+                table.appendChild(row);
+            });
+        })
+        .catch(err => console.error("一覧取得エラー:", err));
+};
+
 //教員一覧を取得
 document.addEventListener("DOMContentLoaded", function() {
     loadTeachers(); //教員一覧を表示
 });
 
+window.clearForm = function () {
+    document.getElementById("admin_id").value = "";
+    document.getElementById("admin_name").value = "";
+    document.getElementById("admin_pass").value = "";
+    document.getElementById("admin_post").value = "";
+    document.getElementById("showpassword").checked = false;
+    document.getElementById("admin_pass").type = "password";
+};
+
 
 
 //ログアウト
-function logout(){
+//グローバル関数に
+window.logout = function () {
     localStorage.removeItem("role");   //ローカルストレージのroleを削除
     window.location.href = "index.html" //ログイン画面に戻る
 }

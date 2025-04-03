@@ -97,7 +97,19 @@ app.post('/api/teachers', async (req, res) => {
       res.status(500).json({ message: 'サーバーエラー' });
     }
   });
-  
+
+// 教員一覧取得API
+app.get('/api/teachers', async (req, res) => {
+  try {
+      const result = await pool.query(
+          "SELECT user_id AS id, name, role AS post FROM users"
+      );
+      res.json(result.rows);
+  } catch (err) {
+      console.error('教員一覧取得エラー:', err);
+      res.status(500).json({ message: 'サーバーエラー' });
+  }
+});
 
 //CSVダウンロード用のAPIエンドポイント
 app.get('/download-csv', async(req, res) => {
