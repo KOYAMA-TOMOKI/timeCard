@@ -105,6 +105,7 @@ async function userLogin() {
         if (response.ok) {
             alert(`${data.role} としてログイン成功`);
             localStorage.setItem("role", data.role);
+            localStorage.setItem("userId", userId);
             if (data.role === "admin") { // 管理者ログイン
                 window.location.href = "admin.html";
             } else { // ユーザログイン

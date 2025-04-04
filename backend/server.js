@@ -39,21 +39,36 @@ app.use(express.json()); //JSONリクエストを有効
 
 // 出退勤記録API
 app.post('/api/attendance', async (req, res) => {
-  const { userId, type } = req.body;  // type: 'clock_in' or 'clock_out'
-
+  const { userId, type } = req.body;
   if (!userId || !type) {
       return res.status(400).json({ message: 'ユーザーIDと出退勤タイプは必須です' });
   }
-
   try {
-      const time = new Date();  // 現在時刻を取得
-
-      // 出勤または退勤の記録
-      await pool.query(
-          `INSERT INTO timecard (user_id, clock_in_time, clock_out_time, type, created_at, updated_at)
-          VALUES ($1, $2, $3, $4, NOW(), NOW())`,
-          [userId, type === 'clock_in' ? time : null, type === 'clock_out' ? time : null, type]
-      );
+      const time = new Date();
+      if (type === 'clock_in') {
+          // 出勤
+          const today = time.toISOString().slice(0, 10); // "YYYY-MM-DD"
+          await pool.query(
+            "INSERT INTO timecard (user_id, work_data, clock_in_time, created_at, updated_at) VALUES ($1, $2, $3, NOW(), NOW())",
+            [userId, today, time]
+          );
+        } else if (type === 'clock_out') {
+          await pool.query(
+            `UPDATE timecard
+             SET clock_out_time = $1, updated_at = NOW()
+             WHERE login_id = (
+               SELECT sub.login_id FROM (
+                 SELECT login_id FROM timecard
+                 WHERE user_id = $2 AND clock_out_time IS NULL
+                 ORDER BY clock_in_time DESC
+                 LIMIT 1
+               ) AS sub
+             )`,
+            [time, userId]
+          );
+      } else {
+          return res.status(400).json({ message: '不正な出退勤タイプです' });
+      }
 
       res.json({ message: `出勤/退勤を記録しました (${type})` });
   } catch (err) {
@@ -130,8 +145,8 @@ app.get('/api/teachers', async (req, res) => {
       res.status(500).json({ message: 'サーバーエラー' });
   }
 });
+
 //削除用API
-// 削除用API
 app.delete('/api/teachers/:id', async (req, res) => {
   const { id } = req.params;
   console.log("削除リクエストを受け取ったID:", id);  // 追加確認用
