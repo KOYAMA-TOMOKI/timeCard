@@ -119,10 +119,25 @@ window.clearForm = function () {
     document.getElementById("admin_pass").type = "password";
 };
 
+//CSVダウンロード
+function downloadCSV() {
+    const month = document.getElementById("month").value;
+    const baseURL = import.meta.env.VITE_API_URL;
 
+    if (!month) {
+        alert("月を選択してください");
+        return;
+    }
+
+    const url = `${baseURL}/download-csv?month=${month}`;
+    window.open(url, "_blank");
+}
+
+//グローバル登録
+window.downloadCSV = downloadCSV;
 
 //ログアウト
-//グローバル関数に
+//グローバル関数
 window.logout = function () {
     localStorage.removeItem("role");   //ローカルストレージのroleを削除
     window.location.href = "index.html" //ログイン画面に戻る

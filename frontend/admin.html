@@ -46,11 +46,21 @@
                     <th>操作</th>
                 </tr>
             </thead>
+            <!--教員一覧のデータを表示する-->
             <tbody id="teacher_table">
-                <!-- JavaScript でデータを挿入 -->
             </tbody>
         </table>
     </div>
+
+    <!--教員削除ボタン-->
+    <div class=" csv-output">
+        <h2>出退勤データのCSV出力</h2>
+        <label for="csvMonth">月を選択：</label>
+        <input type="month" id="month">
+        <button onclick="downloadCSV()">CSV出力</button>
+    </div>
+
+
     <!-- ログアウトボタン -->
     <button class="logout-button" onclick="logout()">ログアウト</button>
 
